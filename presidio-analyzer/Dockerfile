@@ -3,11 +3,14 @@ FROM python:3.12-slim
 ARG NLP_CONF_FILE=presidio_analyzer/conf/default.yaml
 ARG ANALYZER_CONF_FILE=presidio_analyzer/conf/default_analyzer.yaml
 ARG RECOGNIZER_REGISTRY_CONF_FILE=presidio_analyzer/conf/default_recognizers.yaml
+ARG LANG_CONF_FILE=sample_lang_conf.yaml
 ENV PIP_NO_CACHE_DIR=1
 
 ENV ANALYZER_CONF_FILE=${ANALYZER_CONF_FILE}
 ENV RECOGNIZER_REGISTRY_CONF_FILE=${RECOGNIZER_REGISTRY_CONF_FILE}
 ENV NLP_CONF_FILE=${NLP_CONF_FILE}
+ENV LANG_CONF_FILE=${LANG_CONF_FILE}
+ENV PYTHONPATH=/app
 
 ENV PORT=3000
 ENV WORKERS=1
@@ -29,8 +32,15 @@ RUN pip install poetry && poetry install --no-root --only=main -E server
 # install nlp models specified in NLP_CONF_FILE
 COPY ./install_nlp_models.py /app/
 
-RUN poetry run python install_nlp_models.py --conf_file ${NLP_CONF_FILE}
+# RUN poetry run python install_nlp_models.py --conf_file ${NLP_CONF_FILE}
 
 COPY . /app/
 EXPOSE ${PORT}
-CMD ["./entrypoint.sh"]
+CMD ["./entrypoint_pp.sh"]
+
+# For local development, you can build and run the image with:
+# docker build -t presidio-analyzer .
+# docker run --rm -ti -p 3000:3000 presidio-analyzer
+# Then access the API at http://localhost:3000
+# docker tag presidio-analyzer privacypillar/text-analyzer:latest
+# docker push privacypillar/text-analyzer:latest

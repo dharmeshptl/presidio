@@ -132,6 +132,26 @@ class RecognizerRegistry:
             )
             # Returning default
             return SpacyRecognizer
+    @staticmethod
+    def _get_nlp_recognizer(
+        nlp_engine: NlpEngine,
+    ) -> Type[SpacyRecognizer]:
+        """Return the recognizer leveraging the selected NLP Engine."""
+
+        if isinstance(nlp_engine, StanzaNlpEngine):
+            return StanzaRecognizer
+        if isinstance(nlp_engine, TransformersNlpEngine):
+            return TransformersRecognizer
+        if not nlp_engine or isinstance(nlp_engine, SpacyNlpEngine):
+            return SpacyRecognizer
+        else:
+            logger.warning(
+                "nlp engine should be either SpacyNlpEngine,"
+                "StanzaNlpEngine or TransformersNlpEngine"
+            )
+            # Returning default
+            return SpacyRecognizer
+
 
     def get_recognizers(
         self,
@@ -335,3 +355,4 @@ class RecognizerRegistry:
                 supported_entities.extend(recognizer.get_supported_entities())
 
         return list(set(supported_entities))
+

@@ -1,10 +1,48 @@
 nlp_engine_name: spacy
 models:
-  -
-    lang_code: en
+  - lang_code: en
     model_name: en_core_web_lg
-  - lang_code: es
-    model_name: es_core_news_sm
+  # - lang_code: es
+  #   model_name: es_core_news_sm
+  # - lang_code: fr
+  #   model_name: fr_core_news_sm
+  # - lang_code: de
+  #   model_name: de_core_news_sm
+
+entities:
+  - PERSON
+  - EMAIL_ADDRESS
+  - PHONE_NUMBER
+  - CREDIT_CARD
+  - IBAN_CODE
+  - IP_ADDRESS
+  - LOCATION
+  - DATE_TIME
+  - NRP
+  - MEDICAL_LICENSE
+  - URL
+  - US_BANK_NUMBER
+  - US_DRIVER_LICENSE
+  - US_ITIN
+  - US_PASSPORT
+  - US_SSN
+  - CRYPTO
+  - UK_NHS
+  - UK_NINO
+  - ES_NIF
+  - ES_NIE
+  - IT_FISCAL_CODE
+  - IT_DRIVER_LICENSE
+  - IT_VAT_CODE
+  - IT_PASSPORT
+  - IT_IDENTITY_CARD
+  - IN_PAN
+  - IN_AADHAAR
+  - IN_VEHICLE_REGISTRATION
+  - IN_VOTER
+  - IN_PASSPORT
+
+score_threshold: 0.85
 
 ner_model_configuration:
   model_to_presidio_entity_mapping:
@@ -71,3 +109,33 @@ ner_model_configuration:
   - MSR # MEASURE (similar to quantity)
   - ENV # unknown, most likely EVENT
   - OBJ # unknown, most likely OBJECT
+
+
+# ner_model_configuration:
+#   model_to_presidio_entity_mapping:
+#     PER: PERSON
+#     PERSON: PERSON
+#     NORP: NRP
+#     FAC: LOCATION
+#     LOC: LOCATION
+#     GPE: LOCATION
+#     LOCATION: LOCATION
+#     ORG: ORGANIZATION
+#     ORGANIZATION: ORGANIZATION
+#     DATE: DATE_TIME
+#     TIME: DATE_TIME
+
+#   low_confidence_score_multiplier: 0.4
+#   low_score_entity_names: []
+#   labels_to_ignore:
+#     - ORGANIZATION
+#     - CARDINAL
+#     - EVENT
+#     - LANGUAGE
+#     - LAW
+#     - MONEY
+#     - ORDINAL
+#     - PERCENT
+#     - PRODUCT
+#     - QUANTITY
+#     - WORK_OF_ART

@@ -8,8 +8,13 @@ from pathlib import Path
 from typing import Tuple
 
 from flask import Flask, Response, jsonify, request
-from presidio_analyzer import AnalyzerEngine, AnalyzerEngineProvider, AnalyzerRequest
+# SYNO comment next line
+# from presidio_analyzer import AnalyzerEngine, AnalyzerEngineProvider, AnalyzerRequest
+from presidio_analyzer import AnalyzerEngine, AnalyzerRequest
 from werkzeug.exceptions import HTTPException
+
+# SYNO import below
+# from syno_text_sanitizer import TextSanitizer
 
 DEFAULT_PORT = "3000"
 
@@ -36,22 +41,16 @@ class Server:
         self.logger.setLevel(os.environ.get("LOG_LEVEL", self.logger.level))
         self.app = Flask(__name__)
 
-        analyzer_conf_file = os.environ.get("ANALYZER_CONF_FILE")
-        nlp_engine_conf_file = os.environ.get("NLP_CONF_FILE")
-        recognizer_registry_conf_file = os.environ.get("RECOGNIZER_REGISTRY_CONF_FILE")
+        # SYNO comment start
+        # analyzer_conf_file = os.environ.get("ANALYZER_CONF_FILE")
+        # nlp_engine_conf_file = os.environ.get("NLP_CONF_FILE")
+        # recognizer_registry_conf_file = os.environ.get("RECOGNIZER_REGISTRY_CONF_FILE")
+        # SYNO comment end
 
         self.logger.info("Starting analyzer engine")
-        self.engine: AnalyzerEngine = AnalyzerEngineProvider(
-            analyzer_engine_conf_file=analyzer_conf_file,
-            nlp_engine_conf_file=nlp_engine_conf_file,
-            recognizer_registry_conf_file=recognizer_registry_conf_file,
-        ).create_engine()
+        # SYNO next line: customize AnalyzerEngine
+        self.engine = self.create_analyzer_engine()
         self.logger.info(WELCOME_MESSAGE)
-        self.logger.info("Analyzer engine started successfully")
-        self.logger.info(f"Using NLP engine: {self.engine.nlp_engine}")
-        self.logger.info(f"analyzer_conf_file: {analyzer_conf_file}")
-        self.logger.info(f"nlp_engine_conf_file: {nlp_engine_conf_file}")
-        self.logger.info(f"recognizer_registry_conf_file: {recognizer_registry_conf_file}")
 
         @self.app.route("/health")
         def health() -> str:
@@ -63,12 +62,18 @@ class Server:
             """Execute the analyzer function."""
             # Parse the request params
             try:
-                req_data = AnalyzerRequest(request.get_json())
+                # SYNO next line
+                req_data = self.get_analyze_request(request)
                 if not req_data.text:
                     raise Exception("No text provided")
 
                 if not req_data.language:
                     raise Exception("No language provided")
+
+                # SYNO start
+                # sanitizer = TextSanitizer()
+                # req_data.text = sanitizer.preprocess(req_data.text, req_data.language)
+                # SYNO end
 
                 recognizer_result_list = self.engine.analyze(
                     text=req_data.text,
@@ -79,11 +84,10 @@ class Server:
                     return_decision_process=req_data.return_decision_process,
                     ad_hoc_recognizers=req_data.ad_hoc_recognizers,
                     context=req_data.context,
-                    allow_list=req_data.allow_list,
-                    allow_list_match=req_data.allow_list_match,
-                    regex_flags=req_data.regex_flags,
                 )
-                _exclude_attributes_from_dto(recognizer_result_list)
+
+                # SYNO next line
+                # recognizer_result_list = sanitizer.postprocess(recognizer_result_list)
 
                 return Response(
                     json.dumps(
@@ -141,23 +145,19 @@ class Server:
         def http_exception(e):
             return jsonify(error=e.description), e.code
 
+    # SYNO function
+    def get_analyze_request(self, request) -> AnalyzerRequest:
+        """Get the analyze data from the request."""
+        return AnalyzerRequest(request.get_json())
 
-def _exclude_attributes_from_dto(recognizer_result_list):
-    excluded_attributes = [
-        "recognition_metadata",
-    ]
-    for result in recognizer_result_list:
-        for attr in excluded_attributes:
-            if hasattr(result, attr):
-                delattr(result, attr)
+    # SYNO function
+    def create_analyzer_engine(self):
+        """Create a new instance of the analyzer engine."""
+        return AnalyzerEngine()
 
-
-def create_app():  # noqa
-    server = Server()
-    return server.app
 
 
 if __name__ == "__main__":
-    app = create_app()
     port = int(os.environ.get("PORT", DEFAULT_PORT))
-    app.run(host="0.0.0.0", port=port)
+    server = Server()
+    server.app.run(host="0.0.0.0", port=port)
