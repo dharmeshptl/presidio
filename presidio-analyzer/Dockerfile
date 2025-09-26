@@ -43,4 +43,7 @@ CMD ["./entrypoint_pp.sh"]
 # docker run --rm -ti -p 3000:3000 presidio-analyzer
 # Then access the API at http://localhost:3000
 # docker tag presidio-analyzer privacypillar/text-analyzer:latest
+
+# docker build -t  privacypillar/text-analyzer:latest .
 # docker push privacypillar/text-analyzer:latest
+# docker run --rm -ti -p 3000:3000 privacypillar/text-analyzer:latest
