@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import sys
 from logging.config import fileConfig
 from pathlib import Path
 from typing import Tuple
@@ -16,6 +17,8 @@ from werkzeug.exceptions import HTTPException
 # SYNO import below
 # from syno_text_sanitizer import TextSanitizer
 
+
+
 DEFAULT_PORT = "3000"
 
 LOGGING_CONF_FILE = "logging.ini"
@@ -28,6 +31,7 @@ WELCOME_MESSAGE = r"""
 ██║     ██║  ██║██║ ╚████╔╝ ██║  ██║╚██████╗   ██║   ██║     ██║███████╗███████╗██║  ██║██║  ██║
 ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝     ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
 """
+
 
 
 class Server:
@@ -156,6 +160,9 @@ class Server:
 
 
 if __name__ == "__main__":
+    
+    
     port = int(os.environ.get("PORT", DEFAULT_PORT))
     server = Server()
+    print(f"🌐 Server starting on http://0.0.0.0:{port}")
     server.app.run(host="0.0.0.0", port=port)

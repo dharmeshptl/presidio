@@ -32,6 +32,7 @@ from presidio_analyzer.predefined_recognizers import (
     UsBankRecognizer,
     UsLicenseRecognizer,
     UsPassportRecognizer,
+    KrRrnRecognizer,
 )
 from .recognizer_registry import RecognizerRegistry
 
@@ -71,6 +72,7 @@ class PrivacyPillarRecognizerRegistry(RecognizerRegistry):
         "US_PASSPORT": UsPassportRecognizer,
         "US_ITIN": UsItinRecognizer,
         "US_SSN": UsSsnRecognizer,
+        "KR_RRN": KrRrnRecognizer,
     }
 
     def __init__(self, languages: list[str], nlp_engine: NlpEngine, entities: list[str]):

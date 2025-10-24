@@ -1,0 +1,2 @@
+# Dependencies for RSA License System
+cryptography>=3.4.8

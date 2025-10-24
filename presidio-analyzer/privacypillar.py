@@ -13,6 +13,21 @@ from sortedcontainers import SortedList
 # from .hash_functions import generate_hash
 # from proxy import set_proxy_env_vars
 
+# Import RSA license validation
+from pp_license import validate_startup_license
+
+
+def check_startup_license():
+    """Check RSA license key before starting the application."""
+    # Ignore check if running in test mode
+    if os.environ.get('TEST_MODE') == '1':
+        print("⚠️  TEST_MODE is enabled, skipping license check")
+        return True
+    
+    return validate_startup_license()
+
+
+
 DEFAULT_PORT = "3000"
 LANG_CONF_FILE = "sample_lang_conf.yaml"
 
@@ -195,6 +210,11 @@ class SynologyServer (Server):
         return NlpEngineProvider(conf_file=conf_file).create_engine()
 
 def create_pp_app():  # noqa
+    # Check license key before starting
+    if not check_startup_license():
+        print("❌ License validation failed. Exiting application.")
+        exit(1)
+        
     server = SynologyServer()
     return server.app
 
