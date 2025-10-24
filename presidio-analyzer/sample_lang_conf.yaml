@@ -41,6 +41,14 @@ entities:
   - IN_VEHICLE_REGISTRATION
   - IN_VOTER
   - IN_PASSPORT
+  - KR_RRN
+  - AU_ABN
+  - AU_ACN
+  - AU_TFN
+  - AU_MEDICARE
+  - PL_PESEL
+  - SG_NRIC_FIN
+  - SG_UEN
 
 score_threshold: 0.85
 
