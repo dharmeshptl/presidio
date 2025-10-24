@@ -57,61 +57,61 @@ recognizers:
     supported_languages:
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: SgFinRecognizer
     supported_languages: 
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: AuAbnRecognizer
     supported_languages: 
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: AuAcnRecognizer
     supported_languages: 
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: AuTfnRecognizer
     supported_languages: 
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: AuMedicareRecognizer
     supported_languages: 
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: InPanRecognizer
     supported_languages: 
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: InAadhaarRecognizer
     supported_languages: 
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: InVehicleRegistrationRecognizer
     supported_languages: 
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: InPassportRecognizer
     supported_languages: 
     - en
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: EsNifRecognizer
     supported_languages: 
@@ -157,13 +157,13 @@ recognizers:
     supported_languages: 
     - kr
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: ThTninRecognizer
     supported_languages:
     - th
     type: predefined
-    enabled: false
+    enabled: true
 
   - name: CryptoRecognizer
     type: predefined
@@ -191,4 +191,4 @@ recognizers:
 
   - name: InVoterRecognizer
     type: predefined
-    enabled: false
+    
