@@ -32,7 +32,7 @@ RUN pip install poetry && poetry install --no-root --only=main -E server
 # install nlp models specified in NLP_CONF_FILE
 COPY ./install_nlp_models.py /app/
 
-# RUN poetry run python install_nlp_models.py --conf_file ${NLP_CONF_FILE}
+RUN poetry run python install_nlp_models.py --conf_file ${NLP_CONF_FILE}
 
 COPY . /app/
 EXPOSE ${PORT}
@@ -44,8 +44,7 @@ CMD ["./entrypoint_pp.sh"]
 # Then access the API at http://localhost:3000
 # docker tag presidio-analyzer privacypillar/text-analyzer:latest
 
-# docker build -t  privacypillar/text-analyzer:latest .
-# docker push privacypillar/text-analyzer:latest
-# docker run --rm -ti -p 3000:3000 -e TEST_MODE=1 privacypillar/text-analyzer:latest
-# docker tag privacypillar/text-analyzer:latest ghcr.io/privacypillar/text-analyzer:latest
-# docker push ghcr.io/privacypillar/text-analyzer:latest
+# docker build -t  privacypillarinc/text-analyzer:latest .
+# docker push privacypillarinc/text-analyzer:latest
+# docker run --rm -ti -p 3000:3000 -e TEST_MODE=1 privacypillarinc/text-analyzer:latest
+# docker tag privacypillarinc/text-analyzer:latest ghcr.io/privacypillar/text-analyzer:latest

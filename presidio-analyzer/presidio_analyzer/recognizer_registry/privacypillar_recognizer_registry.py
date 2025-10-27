@@ -33,6 +33,10 @@ from presidio_analyzer.predefined_recognizers import (
     UsLicenseRecognizer,
     UsPassportRecognizer,
     KrRrnRecognizer,
+    ItIdentityCardRecognizer,
+    ItPassportRecognizer,
+    UkNinoRecognizer,
+    ItDriverLicenseRecognizer,
 )
 from .recognizer_registry import RecognizerRegistry
 
@@ -60,12 +64,16 @@ class PrivacyPillarRecognizerRegistry(RecognizerRegistry):
         "IP_ADDRESS": IpRecognizer,
         "IT_FISCAL_CODE": ItFiscalCodeRecognizer,
         "IT_VAT_CODE": ItVatCodeRecognizer,
+        "IT_IDENTITY_CARD": ItIdentityCardRecognizer,
+        "IT_PASSPORT": ItPassportRecognizer,
+        "IT_DRIVER_LICENSE": ItDriverLicenseRecognizer,
         "MEDICAL_LICENSE": MedicalLicenseRecognizer,
         "PHONE_NUMBER": PhoneRecognizer,
         "PL_PESEL": PlPeselRecognizer,
         "SG_NRIC_FIN": SgFinRecognizer,
         "SG_UEN": SgUenRecognizer,
         "UK_NHS": NhsRecognizer,
+        "UK_NINO": UkNinoRecognizer,
         "URL": UrlRecognizer,
         "US_BANK_NUMBER": UsBankRecognizer,
         "US_DRIVER_LICENSE": UsLicenseRecognizer,
@@ -76,7 +84,7 @@ class PrivacyPillarRecognizerRegistry(RecognizerRegistry):
     }
 
     def __init__(self, languages: list[str], nlp_engine: NlpEngine, entities: list[str]):
-        super().__init__()
+        super().__init__(supported_languages=languages)
         candidate_entities = set(self.PREDEFINED_RECOGNIZERS_MAP.keys()) & set(entities)
         nlp_recognizer_class = self._get_nlp_recognizer(nlp_engine)
 

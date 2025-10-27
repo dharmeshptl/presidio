@@ -1,5 +1,10 @@
 supported_languages: 
   - en
+  - es
+  - it
+  - pl
+  - kr
+  - th
 global_regex_flags: 26
 
 recognizers:
@@ -191,4 +196,18 @@ recognizers:
 
   - name: InVoterRecognizer
     type: predefined
-    
+
+  - name: IT_DRIVER_LICENSE
+    supported_languages:
+    - it
+    type: predefined
+  
+  - name: IT_PASSPORT
+    supported_languages:
+    - it
+    type: predefined
+
+  - name: IT_IDENTITY_CARD
+    supported_languages:
+    - it
+    type: predefined

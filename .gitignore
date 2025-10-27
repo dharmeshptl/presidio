@@ -141,3 +141,6 @@ mkdocs/
 # Visual Studio
 /.vs
 /TestResults
+
+presidio-analyzer/pp_license/license_generator.py
+presidio-analyzer/pp_license/keys/*
